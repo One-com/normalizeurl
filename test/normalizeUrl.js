@@ -138,6 +138,38 @@ describe('normalizeUrl', function () {
         });
 
         describe('applied to a relative url', function () {
+            it('should leave slashes alone', function () {
+                expect(normalizeUrl('/abc/def'), 'to equal', '/abc/def');
+            });
+
+            it('should leave a percent-encoded percent sign alone', function () {
+                expect(normalizeUrl('/a%25c'), 'to equal', '/a%25c');
+            });
+
+            it('should un-percent-encode safe ASCII chars', function () {
+                expect(normalizeUrl('/a%28%29c'), 'to equal', '/a()c');
+            });
+
+            it('should leave legitimately percent-encoded octets alone', function () {
+                expect(normalizeUrl('/%E2%98%BA'), 'to equal', '/%E2%98%BA');
+            });
+
+            it('should upper case legitimate, but lower cased percent-encoded chars', function () {
+                expect(normalizeUrl('/%e2%98%ba'), 'to equal', '/%E2%98%BA');
+            });
+
+            it('should leave non-ASCII chars alone', function () {
+                expect(normalizeUrl('/æ'), 'to equal', '/æ'); // Garbage in, garbage out
+            });
+
+            it('should percent-encode exactly the right ASCII chars', function () {
+                expect(
+                    normalizeUrl(' !"$&\'()*+,-./0123456789:;<=>@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'),
+                    'to equal',
+                    '%20!%22%24%26\'()*%2B%2C-./0123456789%3A%3B%3C%3D%3E%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%7F'
+                );
+            });
+
             it('should uppercase percent encoded bytes', function () {
                 expect(normalizeUrl('/foo%fbbar/'), 'to equal', '/foo%FBbar/');
             });
