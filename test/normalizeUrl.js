@@ -157,6 +157,22 @@ describe('normalizeUrl', function () {
             it('should remove /subdir/../ constructs', function () {
                 expect(normalizeUrl('/../some/subdir/../bar/other/../thing/../here/goes/a/bunch/../../nothing/'), 'to equal', '/../some/bar/here/goes/nothing/');
             });
+
+            it('should leave a query string alone', function () {
+                expect(normalizeUrl('foo?bar'), 'to equal', 'foo?bar');
+            });
+
+            it('should leave a fragment identifier alone', function () {
+                expect(normalizeUrl('foo#bar'), 'to equal', 'foo#bar');
+            });
+
+            it('should allow # and ? in the fragment identifier', function () {
+                expect(normalizeUrl('foo#bar#quux?hey%7e'), 'to equal', 'foo#bar#quux?hey~');
+            });
+
+            it('should allow ? in the query string', function () {
+                expect(normalizeUrl('foo#bar?hey%7e?'), 'to equal', 'foo#bar?hey~?');
+            });
         });
 
         afterEach(function () {
