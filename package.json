@@ -1,6 +1,6 @@
 {
   "name": "normalizeurl",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Normalize a url or url fragment by percent-encoding exactly the chars encodeURIComponent does",
   "main": "lib/normalizeUrl.js",
   "scripts": {
