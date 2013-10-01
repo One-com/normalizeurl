@@ -35,7 +35,7 @@ describe('normalizeUrl', function () {
         });
 
         it('should remove redundant /./ constructs', function () {
-            expect(normalizeUrl('http://example.com/./foo/./bar/.'), 'to equal', 'http://example.com/foo/bar/.');
+            expect(normalizeUrl('http://example.com/./foo/./bar/.'), 'to equal', 'http://example.com/foo/bar');
         });
 
         it('should remove /subdir/../ constructs', function () {
@@ -73,7 +73,7 @@ describe('normalizeUrl', function () {
         });
 
         it('should remove redundant /./ constructs', function () {
-            expect(normalizeUrl('//example.com/./foo/./bar/.'), 'to equal', '//example.com/foo/bar/.');
+            expect(normalizeUrl('//example.com/./foo/./bar/.'), 'to equal', '//example.com/foo/bar');
         });
 
         it('should remove /subdir/../ constructs', function () {
@@ -99,7 +99,23 @@ describe('normalizeUrl', function () {
         });
 
         it('should remove redundant /./ constructs', function () {
-            expect(normalizeUrl('/./foo/./bar/.'), 'to equal', '/foo/bar/.');
+            expect(normalizeUrl('/./foo/./bar'), 'to equal', '/foo/bar');
+        });
+
+        it('should remove /. at the end', function () {
+            expect(normalizeUrl('/bar/.'), 'to equal', '/bar');
+        });
+
+        it('should remove /.. at the end if preceeded by a directory name', function () {
+            expect(normalizeUrl('/bar/..'), 'to equal', '/');
+        });
+
+        it('should leave /.. at the end if not preceeded by a directory name', function () {
+            expect(normalizeUrl('/..'), 'to equal', '/..');
+        });
+
+        it('should leave ./ at the start of a relative url', function () {
+            expect(normalizeUrl('./foo'), 'to equal', './foo');
         });
 
         it('should remove /subdir/../ constructs', function () {
@@ -131,7 +147,11 @@ describe('normalizeUrl', function () {
             });
 
             it('should remove redundant /./ constructs', function () {
-                expect(normalizeUrl('/./foo/./bar/.'), 'to equal', '/foo/bar/.');
+                expect(normalizeUrl('/./foo/./bar/.'), 'to equal', '/foo/bar');
+            });
+
+            it('should keep the trailing / after a removed /./', function () {
+                expect(normalizeUrl('/./foo/./bar/./'), 'to equal', '/foo/bar/');
             });
 
             it('should remove /subdir/../ constructs', function () {
