@@ -17,7 +17,7 @@ console.log(normalizeUrl('http://example.com/foo/./bar/quux/../blah'));
 ```
 
 It also does the right thing for relative, root-relative, and protocol-relative urls:
-```
+```javascript
 console.log(normalizeUrl('foo/bar/../blah'));
 // => 'foo/bar/blah'
 
