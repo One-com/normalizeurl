@@ -20,7 +20,5 @@
     "mocha": "=1.13.0",
     "unexpected": "=1.0.1"
   },
-  "dependencies": {
-    "underscore": "~1.5.2"
-  }
+  "dependencies": {}
 }
