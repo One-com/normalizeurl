@@ -7,7 +7,7 @@ describe('normalizeUrl', function () {
         var urlObj = URL.parse('HTTP://example.com/%7efoo?bar'),
             normalizedUrlObj = normalizeUrl(urlObj);
 
-        it('should return new a url object', function () {
+        it('should return a new url object', function () {
             expect(normalizedUrlObj, 'to be an object');
             expect(normalizedUrlObj, 'not to be', urlObj);
         });
