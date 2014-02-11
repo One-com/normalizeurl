@@ -61,6 +61,34 @@ describe('normalizeUrl', function () {
         it('should leave additional # characters alone in the fragment identifier', function () {
             expect(normalizeUrl('http://example.com/#foo#hey'), 'to equal', 'http://example.com/#foo#hey');
         });
+
+        it('should leave equal signs in GET parameters alone', function () {
+            expect(normalizeUrl('http://example.com/pi=ng'), 'to equal', 'http://example.com/pi=ng');
+        });
+
+        it('should leave equal signs in GET parameters alone', function () {
+            expect(normalizeUrl('http://example.com/ping?the=thing'), 'to equal', 'http://example.com/ping?the=thing');
+        });
+
+        it('should normalize already percent encoded equal signs in GET parameters', function () {
+            expect(normalizeUrl('http://example.com/ping?the%3dthing%3D'), 'to equal', 'http://example.com/ping?the%3Dthing%3D');
+        });
+
+        it('should leave equal signs in the fragment identifier alone', function () {
+            expect(normalizeUrl('http://example.com/ping#the=thing'), 'to equal', 'http://example.com/ping#the=thing');
+        });
+
+        it('should normalize already percent encoded equal signs in the fragment identifier', function () {
+            expect(normalizeUrl('http://example.com/ping#the%3dthing%3D'), 'to equal', 'http://example.com/ping#the%3Dthing%3D');
+        });
+
+        it('should leave equal signs in the path alone', function () {
+            expect(normalizeUrl('http://example.com/pi=ng'), 'to equal', 'http://example.com/pi=ng');
+        });
+
+        it('should normalize already percent encoded equal signs in the path', function () {
+            expect(normalizeUrl('http://example.com/pi%3dng%3D'), 'to equal', 'http://example.com/pi%3Dng%3D');
+        });
     });
 
     describe('applied to a protocol-relative url', function () {
@@ -166,7 +194,7 @@ describe('normalizeUrl', function () {
                 expect(
                     normalizeUrl(' !"$&\'()*+,-./0123456789:;<=>@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~'),
                     'to equal',
-                    '%20!%22%24%26\'()*%2B%2C-./0123456789%3A%3B%3C%3D%3E%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%7F'
+                    '%20!%22%24%26\'()*%2B%2C-./0123456789%3A%3B%3C=%3E%40ABCDEFGHIJKLMNOPQRSTUVWXYZ%5B%5C%5D%5E_%60abcdefghijklmnopqrstuvwxyz%7B%7C%7D~%7F'
                 );
             });
 
