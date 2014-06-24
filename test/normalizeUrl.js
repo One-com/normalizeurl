@@ -102,6 +102,14 @@ describe('normalizeUrl', function () {
         it('should not percent encode the colon separating the ip and the port number', function () {
             expect('http://0.0.0.0:1234/', 'to normalize to itself');
         });
+
+        it('should leave the username and password alone', function () {
+            expect('http://admin:123456@example.com:1234/', 'to normalize to itself');
+        });
+
+        it('should leave a username with a percent encoded at-sign alone', function () {
+            expect('http://ad%40min:123456@example.com:1234/', 'to normalize to itself');
+        });
     });
 
     describe('applied to a protocol-relative url', function () {
