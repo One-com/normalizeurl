@@ -4,8 +4,8 @@ var unexpected = require('unexpected'),
 
 describe('normalizeUrl', function () {
     var expect = unexpected.clone();
-    expect.addAssertion('to normalize to', function (expect, subject, value) {
-        expect(normalizeUrl(subject), 'to equal', value);
+    expect.addAssertion('to normalize to [itself]', function (expect, subject, value) {
+        expect(normalizeUrl(subject), 'to equal', this.flags.itself ? subject : value);
     });
 
     describe('applied to an already parsed url object', function () {
@@ -48,7 +48,7 @@ describe('normalizeUrl', function () {
         });
 
         it('should leave /./ and /../ alone in the query string', function () {
-            expect('http://example.com/?foo/bar/../quux/./blah', 'to normalize to', 'http://example.com/?foo/bar/../quux/./blah');
+            expect('http://example.com/?foo/bar/../quux/./blah', 'to normalize to itself');
         });
 
         it('should leave /./ and /../ alone in the fragment identifier', function () {
@@ -80,7 +80,7 @@ describe('normalizeUrl', function () {
         });
 
         it('should leave equal signs in the fragment identifier alone', function () {
-            expect('http://example.com/ping#the=thing', 'to normalize to', 'http://example.com/ping#the=thing');
+            expect('http://example.com/ping#the=thing', 'to normalize to itself');
         });
 
         it('should normalize already percent encoded equal signs in the fragment identifier', function () {
@@ -88,7 +88,7 @@ describe('normalizeUrl', function () {
         });
 
         it('should leave equal signs in the path alone', function () {
-            expect('http://example.com/pi=ng', 'to normalize to', 'http://example.com/pi=ng');
+            expect('http://example.com/pi=ng', 'to normalize to itself');
         });
 
         it('should normalize already percent encoded equal signs in the path', function () {
@@ -114,7 +114,7 @@ describe('normalizeUrl', function () {
         });
 
         it('should not break if there is no slash after the host name', function () {
-            expect('//%65', 'to normalize to', '//%65');
+            expect('//%65', 'to normalize to itself');
         });
 
         it('should leave percent-encoded chars in the host name alone (garbage in...)', function () {
@@ -144,11 +144,11 @@ describe('normalizeUrl', function () {
         });
 
         it('should leave /.. at the end if not preceeded by a directory name', function () {
-            expect('/..', 'to normalize to', '/..');
+            expect('/..', 'to normalize to itself');
         });
 
         it('should leave ./ at the start of a relative url', function () {
-            expect('./foo', 'to normalize to', './foo');
+            expect('./foo', 'to normalize to itself');
         });
 
         it('should remove /subdir/../ constructs', function () {
@@ -172,11 +172,11 @@ describe('normalizeUrl', function () {
 
         describe('applied to a relative url', function () {
             it('should leave slashes alone', function () {
-                expect('/abc/def', 'to normalize to', '/abc/def');
+                expect('/abc/def', 'to normalize to itself');
             });
 
             it('should leave a percent-encoded percent sign alone', function () {
-                expect('/a%25c', 'to normalize to', '/a%25c');
+                expect('/a%25c', 'to normalize to itself');
             });
 
             it('should un-percent-encode safe ASCII chars', function () {
@@ -184,7 +184,7 @@ describe('normalizeUrl', function () {
             });
 
             it('should leave legitimately percent-encoded octets alone', function () {
-                expect('/%E2%98%BA', 'to normalize to', '/%E2%98%BA');
+                expect('/%E2%98%BA', 'to normalize to itself');
             });
 
             it('should upper case legitimate, but lower cased percent-encoded chars', function () {
@@ -192,7 +192,7 @@ describe('normalizeUrl', function () {
             });
 
             it('should leave non-ASCII chars alone', function () {
-                expect('/æ', 'to normalize to', '/æ'); // Garbage in, garbage out
+                expect('/æ', 'to normalize to itself'); // Garbage in, garbage out
             });
 
             it('should percent-encode exactly the right ASCII chars', function () {
@@ -224,11 +224,11 @@ describe('normalizeUrl', function () {
             });
 
             it('should leave a query string alone', function () {
-                expect('foo?bar', 'to normalize to', 'foo?bar');
+                expect('foo?bar', 'to normalize to itself');
             });
 
             it('should leave a fragment identifier alone', function () {
-                expect('foo#bar', 'to normalize to', 'foo#bar');
+                expect('foo#bar', 'to normalize to itself');
             });
 
             it('should allow # and ? in the fragment identifier', function () {
@@ -236,7 +236,7 @@ describe('normalizeUrl', function () {
             });
 
             it('should allow ? in the query string', function () {
-                expect('foo#bar?hey%7e?', 'to normalize to', 'foo#bar?hey~?');
+                expect('foo#bar?hey~?', 'to normalize to', 'foo#bar?hey~?');
             });
         });
 
