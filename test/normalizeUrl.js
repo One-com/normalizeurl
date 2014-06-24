@@ -94,6 +94,14 @@ describe('normalizeUrl', function () {
         it('should normalize already percent encoded equal signs in the path', function () {
             expect('http://example.com/pi%3dng%3D', 'to normalize to', 'http://example.com/pi%3Dng%3D');
         });
+
+        it('should not percent encode the colon separating the host name and the port number', function () {
+            expect('http://example.com:1234/', 'to normalize to itself');
+        });
+
+        it('should not percent encode the colon separating the ip and the port number', function () {
+            expect('http://0.0.0.0:1234/', 'to normalize to itself');
+        });
     });
 
     describe('applied to a protocol-relative url', function () {
