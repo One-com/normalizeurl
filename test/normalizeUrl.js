@@ -4,8 +4,8 @@ var unexpected = require('unexpected'),
 
 describe('normalizeUrl', function () {
     var expect = unexpected.clone();
-    expect.addAssertion('to normalize to', function (value) {
-        expect(normalizeUrl(this.obj), 'to equal', value);
+    expect.addAssertion('to normalize to', function (expect, subject, value) {
+        expect(normalizeUrl(subject), 'to equal', value);
     });
 
     describe('applied to an already parsed url object', function () {
