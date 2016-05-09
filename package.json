@@ -17,7 +17,7 @@
   "author": "Andreas Lind Petersen <andreas@one.com>",
   "license": "BSD",
   "devDependencies": {
-    "mocha": "=1.20.1",
-    "unexpected": "=3.2.2"
+    "mocha": "2.4.5",
+    "unexpected": "10.13.2"
   }
 }
