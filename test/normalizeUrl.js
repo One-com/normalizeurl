@@ -260,4 +260,20 @@ describe('normalizeUrl', function () {
             URL.parse = originalUrlParse;
         });
     });
+
+    describe('#create', function () {
+        it('should be a function', function () {
+            expect(normalizeUrl.create, 'to be a function');
+        });
+
+        it('should return a function', function () {
+            expect(normalizeUrl.create(), 'to be a function');
+        });
+
+        describe('with a leaveAlone option', function () {
+            it('should allow customizing the set of chars not to encode by providing a string', function () {
+                expect(normalizeUrl.create({leaveAlone: ',{}'})('{}foo,bar,quux^baz'), 'to equal', '{}foo,bar,quux%5Ebaz');
+            });
+        });
+    });
 });
